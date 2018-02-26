@@ -1,6 +1,6 @@
 # Identicon
 
-**TODO: Add description**
+Elixir identicon, generates a unique image pattern from text
 
 ## Installation
 
