@@ -16,7 +16,7 @@ end
 ```
 
 
-Documentation is in docs or [Docs](https://joaosetas.github.io/Identicon)
+Documentation is in docs file or [Docs](https://joaosetas.github.io/Identicon)
 
 # Identicon
 # Identicon

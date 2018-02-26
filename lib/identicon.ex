@@ -2,19 +2,16 @@ defmodule Identicon do
   @moduledoc """
   Documentation for Identicon.
 
-  ##Example
-      iex> Identicon.main("test")
-      %Identicon.Image{
-        color: {9, 143, 107},
-        hex: [9, 143, 107, 205, 70, 33, 211, 115, 202, 222, 78, 131, 38, 39, 180, 246]
-      }
   """
-  def main(input) do
+  def main(input, size \\ 250) do
     input 
     |> hash_input
     |> pick_color
     |> build_grid
     |> filter_odd
+    |> build_pixel_map(size)
+    |> draw_image(size)
+    |> save_image(input)
     
   end
 
@@ -31,6 +28,9 @@ defmodule Identicon do
     %Identicon.Image{image | color: {r, g, b}}
   end
 
+  @doc """
+  Creates a hashed list from the input and returns the result as `%Identicon.Image{hex: hex}`
+  """
   def hash_input(input) do
     hex = :crypto.hash(:md5, input)
     |> :binary.bin_to_list
@@ -38,8 +38,10 @@ defmodule Identicon do
     %Identicon.Image{hex: hex}
   end
 
+
+
   @doc """
-  Returns a grid with the values
+  Adds a grid to `%Identicon.Image{}` as a list of tuples with the values and the index
 
     `Enum.map(&mirror_row/1)` same as `Enum.map(&mirror_row(&1))`
   """
@@ -54,21 +56,57 @@ defmodule Identicon do
     %Identicon.Image{image | grid: grid}
   end
 
+  @doc """
+    Adds a mirror of the row to it self
+  """
   def mirror_row([first, second | _] = row) do
     row ++ [second, first]
   end
 
+  @doc """
+    Removes odd numbers from the grid 
+  """
   def filter_odd(%Identicon.Image{grid: grid} = image) do
     grid = Enum.filter grid, fn 
         {number, _} -> rem(number, 2) == 0
       end
 
-
     %Identicon.Image{image | grid: grid}
   end
 
-  def build_pixel_map do
-    
+  @doc """
+  Extends the index of the grid to 50px squares as `{{x_top_left, y_top_left}, {x_bot_right, y_bot_right}}`
+  """
+  def build_pixel_map(%Identicon.Image{grid: grid} = image, size) do
+    pixel_map = Enum.map grid, fn
+      {_, index} -> 
+        size = div(size, 5)
+        x = rem(index, 5) * size
+        y = div(index, 5) * size
+
+        top_left = {x, y}
+        bot_right = {x + size, y + size}
+
+        {top_left, bot_right}
+      end
+    %Identicon.Image{image | pixel_map: pixel_map}
   end
 
+  @doc """
+  Uses a erlang image library to create a image with the rectangles from pixel_map
+  """
+  def draw_image(%Identicon.Image{color: color, pixel_map: pixel_map}, size) do
+    image = :egd.create(size, size)
+    fill = :egd.color(color)
+
+    Enum.each pixel_map, fn {top_left, bot_right} ->
+      :egd.filledRectangle(image, top_left, bot_right, fill)
+    end
+
+    :egd.render(image)
+  end
+
+  def save_image(image, input) do
+    File.write "generated_Identicon/#{input}.png", image
+  end
 end
