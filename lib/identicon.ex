@@ -4,10 +4,10 @@ defmodule Identicon do
 
   ## Example
 
-      iex>Identicon.main "test", 250
+      iex>Identicon.main "test", 250, "generated_identicon/"
       :ok
   """
-  def main(input, size \\ 250) do
+  def main(input, size \\ 250, directory \\ "") do
     input 
     |> hash_input
     |> pick_color
@@ -15,7 +15,7 @@ defmodule Identicon do
     |> filter_odd
     |> build_pixel_map(size)
     |> draw_image(size)
-    |> save_image(input)
+    |> save_image(input, directory)
     
   end
 
@@ -110,7 +110,7 @@ defmodule Identicon do
     :egd.render(image)
   end
 
-  def save_image(image, input) do
-    File.write "generated_Identicon/#{input}.png", image
+  def save_image(image, input, directory) do
+    File.write "#{directory}#{input}.png", image
   end
 end
