@@ -4,7 +4,7 @@ Elixir identicon, generates a unique image pattern from text
 
 ## Installation
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
+The package can be installed
 by adding `identicon` and `egd` to your list of dependencies in `mix.exs`:
 
 ```elixir
@@ -17,7 +17,7 @@ end
 ```
 Then run the command `mix deps.get`
 
-Documentation is in docs file or [Docs](https://joaosetas.github.io/Identicon)
+Documentation is in docs file or [Docs](https://hexdocs.pm/identicons/Identicon.html)
 
 ## Example
 

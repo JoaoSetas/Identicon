@@ -3,9 +3,17 @@ defmodule Identicon do
   Documentation for Identicon.
 
   ## Example
+  The folder `generated_identicon/` must exist
 
       iex>Identicon.main "test", 250, "generated_identicon/"
       :ok
+  """
+
+  @doc """
+  Main function to run the identicon
+  * `input` Text to generate the pattern
+  * `size` size of the image
+  * `directory` path to the folder to put the image
   """
   def main(input, size \\ 250, directory \\ "") do
     input 
@@ -110,6 +118,9 @@ defmodule Identicon do
     :egd.render(image)
   end
 
+  @doc """
+  Saves the image to a file
+  """
   def save_image(image, input, directory) do
     File.write "#{directory}#{input}.png", image
   end
