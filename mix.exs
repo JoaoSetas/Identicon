@@ -10,7 +10,7 @@ defmodule Identicon.MixProject do
       description: description(),
       package: package(),
       deps: deps(),
-      name: "Identicon",
+      name: "Identicons",
       source_url: "https://github.com/JoaoSetas/Identicon"
     ]
   end
@@ -40,6 +40,8 @@ defmodule Identicon.MixProject do
   defp package() do
     [
       maintainers: ["João Setas"],
+      licenses: ["Ex_doc 0.14"],
       links: %{"GitHub" => "https://github.com/JoaoSetas/Identicon"}
     ]
+  end
 end

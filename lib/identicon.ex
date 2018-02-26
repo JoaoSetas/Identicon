@@ -2,6 +2,10 @@ defmodule Identicon do
   @moduledoc """
   Documentation for Identicon.
 
+  ## Example
+
+      iex>Identicon.main "test", 250
+      :ok
   """
   def main(input, size \\ 250) do
     input 
