@@ -19,4 +19,13 @@ Then run the command `mix deps.get`
 
 Documentation is in docs file or [Docs](https://joaosetas.github.io/Identicon)
 
+## Example
+
+The folder `generated_identicon/` must exist
+
+```elixir
+  iex>Identicon.main "test", 250, "generated_identicon/"
+  :ok
+```
+
 # Identicon
